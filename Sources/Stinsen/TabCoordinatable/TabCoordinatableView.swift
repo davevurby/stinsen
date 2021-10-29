@@ -11,7 +11,7 @@ struct TabCoordinatableView<T: TabCoordinatable, U: View>: View {
     var body: some View {
         TabView(selection: $child.activeTab) {
             ForEach(Array(views.enumerated()), id: \.offset) { view in
-                customize(view)
+                AnyView(customize(view))
                     .element
                     .tabItem {
                         coordinator.child.allItems[view.offset].tabItem(view.offset == child.activeTab)
