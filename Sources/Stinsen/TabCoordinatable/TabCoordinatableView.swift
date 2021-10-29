@@ -9,20 +9,16 @@ struct TabCoordinatableView<T: TabCoordinatable, U: View>: View {
     private var views: [AnyView]
     
     var body: some View {
-        customize(
-            AnyView(
-                TabView(selection: $child.activeTab) {
-                    ForEach(Array(views.enumerated()), id: \.offset) { view in
-                        view
-                            .element
-                            .tabItem {
-                                coordinator.child.allItems[view.offset].tabItem(view.offset == child.activeTab)
-                            }
-                            .tag(view.offset)
+        TabView(selection: $child.activeTab) {
+            ForEach(Array(views.enumerated()), id: \.offset) { view in
+                customize(view)
+                    .element
+                    .tabItem {
+                        coordinator.child.allItems[view.offset].tabItem(view.offset == child.activeTab)
                     }
-                }
-            )
-        )
+                    .tag(view.offset)
+            }
+        }
         .environmentObject(router)
     }
     
